@@ -1,4 +1,7 @@
 FROM nginx:alpine
-COPY ./index.html /usr/share/nginx/html/index.html
-COPY ./ /usr/share/nginx/html/
 
+WORKDIR /usr/share/nginx/html
+COPY ./index.html ./index.html
+
+# Replace placeholder with the container hostname each time the container starts
+CMD sh -c "sed -i \"s/%%CONTAINER_ID%%/$(hostname)/g\" /usr/share/nginx/html/index.html && nginx -g 'daemon off;'"
