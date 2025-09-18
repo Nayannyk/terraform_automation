@@ -1,9 +1,21 @@
 <!doctype html>
-<html>
-  <head><meta charset="utf-8"><title>Static site</title></head>
-  <body>
-    <h1>Welcome to the static site</h1>
-    <h2>Hostname: $(hostname)!</h2>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Container ID / LB Check</title>
+  <style>
+    body { font-family: sans-serif; display:flex; align-items:center; justify-content:center; height:100vh; margin:0; background:#f6f8fa; }
+    .card { background:white; padding:28px; border-radius:12px; box-shadow:0 6px 18px rgba(20,20,40,0.06); text-align:center; }
+    h1 { margin:0 0 16px 0; font-size:20px; }
+    .id { font-family: monospace; font-size:18px; padding:10px 14px; background:#f3f4f6; border-radius:8px; display:inline-block; }
+    .muted { color:#6b7280; font-size:13px; margin-top:12px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Container / Instance ID</h1>
+    <div id="detected" class="id">%%CONTAINER_ID%%</div>
+    <div class="muted">This value comes from the container hostname.</div>
+  </div>
+</body>
 </html>
-
