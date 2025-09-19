@@ -1,0 +1,54 @@
+# Update system
+sudo yum update -y
+
+# Install required tools
+sudo yum install -y git 
+sudo yum install docker -y
+sudo yum install yum-utils
+
+# Add HashiCorp repo for Terraform
+sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+
+# Install Terraform
+sudo yum install -y terraform
+
+# Clone your repository
+git clone https://github.com/Nayannyk/terraform_automation.git
+cd terraform_automation
+
+# Start and enable Docker
+sudo systemctl start docker
+sudo systemctl enable docker
+
+# Move to docker folder and build the image
+cd /terraform_automation/docker
+docker build -t static-site .
+
+# Configure AWS CLI
+aws configure
+
+# Create ECR repository (only first time, ignore if it already exists)
+aws ecr create-repository --repository-name static-site
+
+# Authenticate Docker to ECR
+aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 127898337602.dkr.ecr.us-west-2.amazonaws.com
+
+# Tag and push image to ECR
+docker tag static-site:latest 127898337602.dkr.ecr.us-west-2.amazonaws.com/static-site:latest
+docker push 127898337602.dkr.ecr.us-west-2.amazonaws.com/static-site:latest
+
+# Move to terraform folder
+cd ../terraform
+
+# Initialize terraform
+terraform init
+
+# Import existing ECR repo into terraform state (only needed once)
+terraform import aws_ecr_repository.app static-site
+
+# Plan and apply
+terraform plan
+terraform apply -auto-approve
+#to delete and destroy
+terraform destroy
+
