@@ -1,0 +1,14 @@
+terraform_automation/
+├─ Docker/
+│ ├─ Dockerfile
+│ ├─ index.html
+├─ Terraform/
+│ ├─ provider.tf
+│ ├─ variables.tf
+│ ├─ vpc.tf
+│ ├─ iam.tf
+│ ├─ ecr.tf
+│ ├─ ecs.tf
+│ ├─ alb.tf
+│ ├─ autoscaling.tf
+│ ├─ outputs.tf
